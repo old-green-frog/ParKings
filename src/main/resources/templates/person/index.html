@@ -33,7 +33,6 @@
                                         <thead>
                                         <tr>
                                             <th scope="col" class="text-nowrap align-middle text-center">Порядковый номер</th>
-                                            <th scope="col" class="align-middle text-center">Идентификатор</th>
                                             <th scope="col" class="align-middle text-center">ФИО</th>
                                             <th scope="col"></th>
                                         </tr>
@@ -41,7 +40,6 @@
                                         <tbody>
                                         <tr class="align-middle text-center" th:each="person,iterStat : ${persons}">
                                             <td class="text-nowrap align-left" th:text="${iterStat.count}">Отсутствуют данные...</td>
-                                            <td th:text="${person.id}"></td>
                                             <td th:text="${person.name}"></td>
                                             <td class="text-center align-middle">
                                                 <div class="btn-group align-top">
@@ -59,19 +57,19 @@
                                                             </div>
                                                             <div class="modal-body">
                                                                 <div class="py-1">
-                                                                    <form class="form" novalidate="" action="#" th:action="@{'/person/' + ${person.id} + '/update'}" th:object="${person}" method="post">
+                                                                    <form th:attr="id=${person.id} + '-update-form'" class="form" action="#" th:action="@{'/person/' + ${person.id} + '/update'}" th:object="${person}" method="post">
                                                                         <div class="row">
                                                                             <div class="col">
                                                                                 <div class="row">
                                                                                     <div class="col">
                                                                                         <div class="form-group text-left align-left">
                                                                                             <label class="text-left align-left" for="fio_update">ФИО</label>
-                                                                                            <input class="form-control" id="fio_update" th:field="*{name}" type="text" name="name" placeholder="Сергеев Сергей Сергеевич">
+                                                                                            <input class="form-control" id="fio_update" th:field="*{name}" type="text" name="name" placeholder="Сергеев Сергей Сергеевич" required>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="col d-flex justify-content-end">
-                                                                                    <button class="btn btn-primary" type="submit">Сохранить</button>
+                                                                                    <button class="btn btn-primary" th:attr="id=${person.id} + '-button-update'">Сохранить</button>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -141,14 +139,14 @@
                         </div>
                         <div class="modal-body">
                             <div class="py-1">
-                                <form class="form" novalidate="" action="#" th:action="@{/person/create}" th:object="${person}" method="post">
+                                <form class="form" action="#" th:action="@{/person/create}" th:object="${person}" method="post">
                                     <div class="row">
                                         <div class="col">
                                             <div class="row">
                                                 <div class="col">
                                                     <div class="form-group">
                                                         <label for="fio">ФИО</label>
-                                                        <input class="form-control" id="fio" th:field="*{name}" type="text" name="name" placeholder="Сергеев Сергей Сергеевич">
+                                                        <input class="form-control" id="fio" th:field="*{name}" type="text" name="name" placeholder="Сергеев Сергей Сергеевич" required>
                                                     </div>
                                                 </div>
                                         </div>
@@ -169,5 +167,6 @@
 </div>
 <script th:src="@{/js/popper.min.js}" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script th:src="@{/js/bootstrap.min.js}" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+<script th:src="@{/js/validation.js}"></script>
 </body>
 </html>

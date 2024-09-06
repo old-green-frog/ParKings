@@ -59,25 +59,25 @@
                                                             </div>
                                                             <div class="modal-body">
                                                                 <div class="py-1">
-                                                                    <form class="form" novalidate="" action="#" th:action="@{'/car/' + ${car.id} + '/update'}" th:object="${car}" method="post">
+                                                                    <form th:attr="id=${car.id} + '-update-form'" class="form" action="#" th:action="@{'/car/' + ${car.id} + '/update'}" th:object="${car}" method="post">
                                                                         <div class="row">
                                                                             <div class="col">
                                                                                 <div class="row">
                                                                                     <div class="col">
                                                                                         <div class="form-group text-left align-left">
                                                                                             <label class="text-left align-left" for="person_update">ФИО владельца</label>
-                                                                                            <select id="person_update" th:field="*{person}">
+                                                                                            <select id="person_update" th:field="*{person}" required>
                                                                                                 <option th:each="person : ${persons}" th:value="${person.id}" th:text="${person.name}">
                                                                                                 </option>
                                                                                             </select>
 
                                                                                             <label class="text-left align-left" for="number_update">Регистрационный знак</label>
-                                                                                            <input class="form-control" id="number_update" th:field="*{number}" type="text" name="number" placeholder="ч345оо161">
+                                                                                            <input class="form-control" id="number_update" th:field="*{number}" type="text" name="number" placeholder="ч345оо161" required>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="col d-flex justify-content-end">
-                                                                                    <button class="btn btn-primary" type="submit">Сохранить</button>
+                                                                                    <button class="btn btn-primary" th:attr="id=${car.id} + '-button-update'">Сохранить</button>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -147,20 +147,20 @@
                     </div>
                     <div class="modal-body">
                         <div class="py-1">
-                            <form class="form" novalidate="" action="#" th:action="@{/car/create}" th:object="${car}" method="post">
+                            <form class="form" action="#" th:action="@{/car/create}" th:object="${car}" method="post">
                                 <div class="row">
                                     <div class="col">
                                         <div class="row">
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label class="text-left align-left" for="person_create">ФИО владельца</label>
-                                                    <select id="person_create" th:field="*{person}">
+                                                    <select id="person_create" th:field="*{person}" required>
                                                         <option th:each="person : ${persons}" th:value="${person.id}" th:text="${person.name}">
                                                         </option>
                                                     </select>
 
                                                     <label class="text-left align-left" for="number_create">Регистрационный знак</label>
-                                                    <input class="form-control" id="number_create" th:field="*{number}" type="text" name="number" placeholder="ч345оо161">
+                                                    <input class="form-control" id="number_create" th:field="*{number}" type="text" name="number" placeholder="ч345оо161" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -181,5 +181,6 @@
 </div>
 <script th:src="@{/js/popper.min.js}" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script th:src="@{/js/bootstrap.min.js}" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+<script th:src="@{/js/validation.js}"></script>
 </body>
 </html>
