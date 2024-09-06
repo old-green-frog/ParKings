@@ -63,25 +63,25 @@
                                                             </div>
                                                             <div class="modal-body">
                                                                 <div class="py-1">
-                                                                    <form class="form" novalidate="" action="#" th:action="@{'/slot/' + ${slot.id} + '/update'}" th:object="${slot}" method="post">
+                                                                    <form th:attr="id=${slot.id} + '-update-form'" class="form" action="#" th:action="@{'/slot/' + ${slot.id} + '/update'}" th:object="${slot}" method="post">
                                                                         <div class="row">
                                                                             <div class="col">
                                                                                 <div class="row">
                                                                                     <div class="col">
                                                                                         <div class="form-group text-left align-left">
                                                                                             <label class="text-left align-left" for="number_update">Номер парковочного места</label>
-                                                                                            <input class="form-control" id="number_update" th:field="*{number}" type="text" name="number" placeholder="36">
+                                                                                            <input class="form-control" id="number_update" th:field="*{number}" type="text" name="number" placeholder="36" required>
                                                                                             <label class="text-left align-left" for="cost_update">Стоимость резерва</label>
-                                                                                            <input class="form-control" id="cost_update" th:field="*{cost}" type="text" name="number" placeholder="2600">
+                                                                                            <input class="form-control" id="cost_update" th:field="*{cost}" type="text" name="number" placeholder="2600" required>
 
                                                                                             <label class="text-left align-left" for="car_update">Регистрационный номер машины</label>
-                                                                                            <select id="car_update" th:field="*{car}">
+                                                                                            <select id="car_update" th:field="*{car}" required>
                                                                                                 <option th:each="car : ${cars}" th:value="${car.id}" th:text="${car.number} + ' (' + ${car.person.name} + ')'">
                                                                                                 </option>
                                                                                             </select><br>
 
                                                                                             <label class="text-left align-left" for="status_update">Статус слота</label>
-                                                                                            <select id="status_update" th:field="*{status}">
+                                                                                            <select id="status_update" th:field="*{status}" required>
                                                                                                 <option th:each="status : ${statuses}" th:value="${status.id}" th:text="${status.status_string_rus}">
                                                                                                 </option>
                                                                                             </select>
@@ -89,7 +89,7 @@
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="col d-flex justify-content-end">
-                                                                                    <button class="btn btn-primary" type="submit">Сохранить</button>
+                                                                                    <button class="btn btn-primary" th:attr="id=${slot.id} + '-button-update'">Сохранить</button>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -159,25 +159,25 @@
                     </div>
                     <div class="modal-body">
                         <div class="py-1">
-                            <form class="form" novalidate="" action="#" th:action="@{/slot/create}" th:object="${slot}" method="post">
+                            <form class="form" action="#" th:action="@{/slot/create}" th:object="${slot}" method="post">
                                 <div class="row">
                                     <div class="col">
                                         <div class="row">
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label class="text-left align-left" for="number_create">Номер парковочного места</label>
-                                                    <input class="form-control" id="number_create" th:field="*{number}" type="text" name="number" placeholder="36">
+                                                    <input class="form-control" id="number_create" th:field="*{number}" type="text" name="number" placeholder="36" required>
                                                     <label class="text-left align-left" for="cost_create">Стоимость резерва</label>
-                                                    <input class="form-control" id="cost_create" th:field="*{cost}" type="text" name="number" placeholder="2600">
+                                                    <input class="form-control" id="cost_create" th:field="*{cost}" type="text" name="number" placeholder="2600" required>
 
                                                     <label class="text-left align-left" for="car_create">Регистрационный номер машины</label>
-                                                    <select id="car_create" th:field="*{car}">
+                                                    <select id="car_create" th:field="*{car}" required>
                                                         <option th:each="car : ${cars}" th:value="${car.id}" th:text="${car.number} + ' (' + ${car.person.name} + ')'">
                                                         </option>
                                                     </select><br>
 
                                                     <label class="text-left align-left" for="status_create">Статус слота</label>
-                                                    <select id="status_create" th:field="*{status}">
+                                                    <select id="status_create" th:field="*{status}" required>
                                                         <option th:each="status : ${statuses}" th:value="${status.id}" th:text="${status.status_string_rus}">
                                                         </option>
                                                     </select>
@@ -201,5 +201,6 @@
 </div>
 <script th:src="@{/js/popper.min.js}" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script th:src="@{/js/bootstrap.min.js}" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+<script th:src="@{/js/validation.js}"></script>
 </body>
 </html>
