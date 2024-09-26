@@ -1,24 +1,16 @@
 package com.king.parking.car;
 
-import com.king.parking.person.Person;
-import jakarta.persistence.*;
 
-@Entity
 public class Car {
 
-    @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
     private String number;
+    private Long person_id;
 
-    @ManyToOne
-    @JoinColumn(name = "person_id")
-    private Person person;
-
-    protected Car() {}
-    public Car(String number, Person person) {
+    public Car() {}
+    public Car(String number, Long person_id) {
         this.number = number;
-        this.person = person;
+        this.person_id = person_id;
     }
 
     @Override
@@ -36,15 +28,15 @@ public class Car {
         return number;
     }
 
-    public Person getPerson() {
-        return person;
+    public Long getPerson_id() {
+        return person_id;
     }
 
     public void setNumber(String number) {
         this.number = number;
     }
 
-    public void setPerson(Person person) {
-        this.person = person;
+    public void setPerson_id(Long person_id) {
+        this.person_id = person_id;
     }
 }

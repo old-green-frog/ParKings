@@ -12,38 +12,29 @@ import java.util.Optional;
 public class PersonController {
 
     @Autowired
-    private PersonRepository personRepository;
+    private PersonService service;
 
     @PostMapping(path="/create")
     public String createPerson(@ModelAttribute Person person, Model model) {
-        personRepository.save(person);
+        service.savePerson(person);
         return "redirect:/person/all";
     }
 
     @PostMapping(path="/{id}/update")
     public String updatePerson(@PathVariable Integer id, @ModelAttribute Person person, Model model) {
-        Optional<Person> p = personRepository.findById(id);
-        if (p.isPresent()) {
-            Person pers = p.get();
-            pers.setName(person.getName());
-            personRepository.save(pers);
-        }
+        service.updatePerson(person, id);
         return "redirect:/person/all";
     }
 
     @PostMapping(path="/{id}/delete")
     public String deletePerson(@PathVariable Integer id, Model model) {
-        Optional<Person> p = personRepository.findById(id);
-        if (p.isPresent()) {
-            personRepository.deleteById(id);
-        }
+        service.deletePerson(id);
         return "redirect:/person/all";
     }
 
     @GetMapping(path="/all")
     public String getAllPersons(Model model) {
-        model.addAttribute("persons", personRepository.findAll());
-        model.addAttribute("person", new Person());
+        service.populateModelData(model);
         return "person/index";
     }
 }

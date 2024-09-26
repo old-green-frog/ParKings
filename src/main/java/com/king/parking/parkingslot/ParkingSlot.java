@@ -1,28 +1,15 @@
 package com.king.parking.parkingslot;
 
-import com.king.parking.car.Car;
-import com.king.parking.person.Person;
-import com.king.parking.slotstatus.SlotStatus;
-import jakarta.persistence.*;
 
-@Entity
 public class ParkingSlot {
 
-    @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
     private String number;
     private Double cost;
+    private Long status_id;
+    private Long car_id;
 
-    @ManyToOne
-    @JoinColumn(name = "status_id")
-    private SlotStatus status;
-
-    @OneToOne
-    @JoinColumn(name = "car_id")
-    private Car car;
-
-    protected ParkingSlot() {}
+    public ParkingSlot() {}
 
     @Override
     public String toString() {
@@ -43,31 +30,27 @@ public class ParkingSlot {
         return cost;
     }
 
-    public SlotStatus getStatus() {
-        return status;
+    public Long getStatus_id() {
+        return status_id;
     }
 
-    public Car getCar() {
-        return car;
-    }
-
-    public Person getPerson() {
-        return car.getPerson();
+    public Long getCar_id() {
+        return car_id;
     }
 
     public void setNumber(String number) {
         this.number = number;
     }
 
-    public void setCar(Car car) {
-        this.car = car;
+    public void setCar_id(Long car_id) {
+        this.car_id = car_id;
     }
 
     public void setCost(Double cost) {
         this.cost = cost;
     }
 
-    public void setStatus(SlotStatus status) {
-        this.status = status;
+    public void setStatus_id(Long status_id) {
+        this.status_id = status_id;
     }
 }

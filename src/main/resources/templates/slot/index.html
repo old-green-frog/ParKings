@@ -45,8 +45,8 @@
                                             <td class="text-nowrap align-left" th:text="${iterStat.count}">Отсутствуют данные...</td>
                                             <td th:text="${slot.number}"></td>
                                             <td th:text="${slot.cost}"></td>
-                                            <td th:text="${slot.status.status_string_rus}"></td>
-                                            <td th:text="${slot.car.number}"></td>
+                                            <td th:text="${status_relate[slot.id].status_string_rus}"></td>
+                                            <td th:text="${car_relate[slot.id].number}"></td>
                                             <td class="text-center align-middle">
                                                 <div class="btn-group align-top">
                                                     <button class="btn btn-sm btn-outline-secondary badge" type="button" data-bs-toggle="modal" th:attr="data-bs-target='#'+${slot.id}">Редактировать</button>
@@ -74,17 +74,16 @@
                                                                                             <label class="text-left align-left" for="cost_update">Стоимость резерва</label>
                                                                                             <input class="form-control" id="cost_update" th:field="*{cost}" type="text" name="number" placeholder="2600" required>
 
-                                                                                            <label class="text-left align-left" for="car_update">Регистрационный номер машины</label>
-                                                                                            <select id="car_update" th:field="*{car}" required>
-                                                                                                <option th:each="car : ${cars}" th:value="${car.id}" th:text="${car.number} + ' (' + ${car.person.name} + ')'">
-                                                                                                </option>
-                                                                                            </select><br>
-
                                                                                             <label class="text-left align-left" for="status_update">Статус слота</label>
-                                                                                            <select id="status_update" th:field="*{status}" required>
+                                                                                            <select id="status_update" th:field="*{status_id}" required>
                                                                                                 <option th:each="status : ${statuses}" th:value="${status.id}" th:text="${status.status_string_rus}">
                                                                                                 </option>
                                                                                             </select>
+                                                                                            <label class="text-left align-left" for="car_update">Регистрационный номер машины</label>
+                                                                                            <select id="car_update" th:field="*{car_id}" required>
+                                                                                                <option th:each="car : ${cars}" th:value="${car.id}" th:text="${car.number} + ' (' + ${person_relate[car.id].name} + ')'">
+                                                                                                </option>
+                                                                                            </select><br>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -170,17 +169,16 @@
                                                     <label class="text-left align-left" for="cost_create">Стоимость резерва</label>
                                                     <input class="form-control" id="cost_create" th:field="*{cost}" type="text" name="number" placeholder="2600" required>
 
-                                                    <label class="text-left align-left" for="car_create">Регистрационный номер машины</label>
-                                                    <select id="car_create" th:field="*{car}" required>
-                                                        <option th:each="car : ${cars}" th:value="${car.id}" th:text="${car.number} + ' (' + ${car.person.name} + ')'">
-                                                        </option>
-                                                    </select><br>
-
                                                     <label class="text-left align-left" for="status_create">Статус слота</label>
-                                                    <select id="status_create" th:field="*{status}" required>
+                                                    <select id="status_create" th:field="*{status_id}" required>
                                                         <option th:each="status : ${statuses}" th:value="${status.id}" th:text="${status.status_string_rus}">
                                                         </option>
                                                     </select>
+                                                    <label class="text-left align-left" for="car_create">Регистрационный номер машины</label>
+                                                    <select id="car_create" th:field="*{car_id}" required>
+                                                        <option th:each="car : ${cars}" th:value="${car.id}" th:text="${car.number} + ' (' + ${person_relate[car.id].name} + ')'">
+                                                        </option>
+                                                    </select><br>
                                                 </div>
                                             </div>
                                         </div>

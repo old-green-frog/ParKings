@@ -1,17 +1,12 @@
 package com.king.parking.person;
 
-import jakarta.persistence.*;
 
-
-@Entity
 public class Person {
 
-    @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
     private String name;
 
-    protected Person() {}
+    public Person() {}
     public Person(String name) {
         this.name = name;
     }
