@@ -20,7 +20,7 @@ public class CarService {
     private CarRepository carRepository;
 
     public void saveCar(Car car) {
-        carRepository.save(car);
+        carRepository.save(car, false);
     }
 
     public void updateCar(Car car, Integer id) {
@@ -29,7 +29,7 @@ public class CarService {
             Car new_car = cr.get();
             new_car.setNumber(car.getNumber());
             new_car.setPerson_id(car.getPerson_id());
-            carRepository.save(new_car);
+            carRepository.save(new_car, true);
         }
     }
 

@@ -42,7 +42,7 @@ public abstract class BaseRepository<T> {
         return obj;
     };
 
-    public abstract void save(T obj);
+    public abstract void save(T obj, boolean isUpdate);
     public abstract Iterable<T> findAll();
     public abstract Optional<T> findById(Integer id);
     public abstract void deleteById(Integer id);

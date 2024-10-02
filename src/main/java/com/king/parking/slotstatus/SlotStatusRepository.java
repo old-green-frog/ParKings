@@ -1,8 +1,12 @@
 package com.king.parking.slotstatus;
 
 import com.king.parking.BaseRepository;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -10,24 +14,22 @@ import java.util.Optional;
 public class SlotStatusRepository extends BaseRepository<SlotStatus> {
 
     @Override
-    public void save(SlotStatus obj) {
+    public void save(SlotStatus obj, boolean isUpdate) {
+        String query;
+        Map<String, Object> params = new HashMap<>();
+        params.put("status", obj.getStatus_string());
+        params.put("status_rus", obj.getStatus_string_rus());
 
-        Long id = obj.getId();
-        if (id == null) {
-            id = jdbcTemplate.queryForObject("SELECT next_val FROM slot_status_seq", Long.class);
+        if (isUpdate) {
+            params.put("id", obj.getId());
+            query = "UPDATE slot_status SET status_string = :status, status_string_rus = :status_rus WHERE id = :id";
+        } else {
+            params.put("id", jdbcTemplate.queryForObject("SELECT next_val FROM slot_status_seq", Long.class));
+            query = "INSERT INTO slot_status(id, status_string, status_string_rus) VALUES (:id, :status, :status_rus)";
         }
 
-
-        String query =
-                String.format(
-                        "INSERT INTO slot_status(id, status_string, status_string_rus) " +
-                                "VALUES ('%d', '%s', '%s') ON DUPLICATE KEY UPDATE " +
-                                "status_string = '%s', status_string_rus = '%s'",
-                        id, obj.getStatus_string(), obj.getStatus_string_rus(),
-                        obj.getStatus_string(), obj.getStatus_string_rus()
-                );
-
-        jdbcTemplate.execute(query);
+        SqlParameterSource namedParameters = new MapSqlParameterSource().addValues(params);
+        jdbcTemplate.update(query, namedParameters);
     }
 
     @Override
@@ -38,13 +40,13 @@ public class SlotStatusRepository extends BaseRepository<SlotStatus> {
 
     @Override
     public Optional<SlotStatus> findById(Integer id) {
-        String query = "SELECT * FROM slot_status WHERE id = " + id;
-        return Optional.ofNullable(jdbcTemplate.queryForObject(query, baseMapper));
+        String query = "SELECT * FROM slot_status WHERE id = ?";
+        return Optional.ofNullable(jdbcTemplate.queryForObject(query, baseMapper, id));
     }
 
     @Override
     public void deleteById(Integer id) {
-        String query = "DELETE FROM slot_status WHERE id = " + id;
-        jdbcTemplate.execute(query);
+        String query = "DELETE FROM slot_status WHERE id = ?";
+        jdbcTemplate.update(query, id);
     }
 }

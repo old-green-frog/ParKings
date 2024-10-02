@@ -13,7 +13,7 @@ public class SlotStatusService {
     private SlotStatusRepository statusRepository;
 
     public void saveSlotStatus(SlotStatus slotStatus) {
-        statusRepository.save(slotStatus);
+        statusRepository.save(slotStatus, false);
     }
 
     public void updateSlotStatus(SlotStatus slotStatus, Integer id) {
@@ -22,7 +22,7 @@ public class SlotStatusService {
             SlotStatus status = ss.get();
             status.setStatus_string(slotStatus.getStatus_string());
             status.setStatus_string_rus(slotStatus.getStatus_string_rus());
-            statusRepository.save(status);
+            statusRepository.save(status, true);
         }
     }
 

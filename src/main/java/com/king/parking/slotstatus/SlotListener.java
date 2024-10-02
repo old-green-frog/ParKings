@@ -19,7 +19,7 @@ public class SlotListener {
         }
         if (status_counter <= 0) {
             for (Status status: Status.values()) {
-                statusRepository.save(new SlotStatus(status));
+                statusRepository.save(new SlotStatus(status), false);
             }
         }
     }

@@ -26,7 +26,7 @@ public class ParkingSlotService {
     private PersonRepository personRepository;
 
     public void saveParkingSlot(ParkingSlot slot) {
-        slotRepository.save(slot);
+        slotRepository.save(slot, false);
     }
 
     public void updateParkingSlot(ParkingSlot slot, Integer id) {
@@ -37,7 +37,7 @@ public class ParkingSlotService {
             new_slot.setCost(slot.getCost());
             new_slot.setCar_id(slot.getCar_id());
             new_slot.setStatus_id(slot.getStatus_id());
-            slotRepository.save(new_slot);
+            slotRepository.save(new_slot, true);
         }
     }
 

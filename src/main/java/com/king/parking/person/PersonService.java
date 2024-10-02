@@ -13,7 +13,7 @@ public class PersonService {
     private PersonRepository personRepository;
 
     public void savePerson(Person person) {
-        personRepository.save(person);
+        personRepository.save(person, false);
     }
 
     public void updatePerson(Person person, Integer id) {
@@ -21,7 +21,7 @@ public class PersonService {
         if (p.isPresent()) {
             Person pers = p.get();
             pers.setName(person.getName());
-            personRepository.save(pers);
+            personRepository.save(pers, true);
         }
     }
 
