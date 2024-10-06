@@ -1,17 +1,14 @@
 package com.king.parking;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 
@@ -19,6 +16,8 @@ import java.util.Optional;
 public abstract class BaseRepository<T> {
     @Autowired
     public JdbcTemplate jdbcTemplate;
+    @Autowired
+    public NamedParameterJdbcTemplate namedJdbcTemplate;
     private Class<T> classFactory;
 
     public BaseRepository() {
@@ -44,6 +43,7 @@ public abstract class BaseRepository<T> {
 
     public abstract void save(T obj, boolean isUpdate);
     public abstract Iterable<T> findAll();
+    public abstract Iterable<T> findAll(int limit, int page);
     public abstract Optional<T> findById(Integer id);
     public abstract void deleteById(Integer id);
 }

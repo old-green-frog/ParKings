@@ -42,7 +42,7 @@
                                         <tr class="align-middle text-center" th:each="car,iterStat : ${cars}">
                                             <td class="text-nowrap align-left" th:text="${iterStat.count}">Отсутствуют данные...</td>
                                             <td th:text="${car.number}"></td>
-                                            <td th:text="${person_relate[car.id].name}"></td>
+                                            <td th:text="${person_relate[car.id].surname} + ' ' + ${person_relate[car.id].name} + ' ' + ${person_relate[car.id].middlename}"></td>
                                             <td class="text-center align-middle">
                                                 <div class="btn-group align-top">
                                                     <button class="btn btn-sm btn-outline-secondary badge" type="button" data-bs-toggle="modal" th:attr="data-bs-target='#'+${car.id}">Редактировать</button>
@@ -70,7 +70,7 @@
 
                                                                                             <label class="text-left align-left" for="person_update">ФИО владельца</label>
                                                                                             <select id="person_update" th:field="*{person_id}" required>
-                                                                                                <option th:each="person : ${persons}" th:value="${person.id}" th:text="${person.name}">
+                                                                                                <option th:each="person : ${persons}" th:value="${person.id}" th:text="${person.surname} + ' ' + ${person.name} + ' ' + ${person.middlename}">
                                                                                                 </option>
                                                                                             </select>
                                                                                         </div>
@@ -155,7 +155,7 @@
                                                 <div class="form-group">
                                                     <label class="text-left align-left" for="person_create">ФИО владельца</label>
                                                     <select id="person_create" th:field="*{person_id}" required>
-                                                        <option th:each="person : ${persons}" th:value="${person.id}" th:text="${person.name}">
+                                                        <option th:each="person : ${persons}" th:value="${person.id}" th:text="${person.surname} + ' ' + ${person.name} + ' ' + ${person.middlename}">
                                                         </option>
                                                     </select>
 

@@ -1,6 +1,7 @@
 package com.king.parking.parkingslot;
 
 import com.king.parking.BaseRepository;
+import com.king.parking.car.Car;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
@@ -34,13 +35,19 @@ public class ParkingSlotRepository extends BaseRepository<ParkingSlot> {
         }
 
         SqlParameterSource namedParameters = new MapSqlParameterSource().addValues(params);
-        jdbcTemplate.update(query, namedParameters);
+        namedJdbcTemplate.update(query, namedParameters);
     }
 
     @Override
     public Iterable<ParkingSlot> findAll() {
         String query = "SELECT * FROM parking_slot";
         return jdbcTemplate.query(query, baseMapper);
+    }
+
+    @Override
+    public Iterable<ParkingSlot> findAll(int limit, int page) {
+        String query = "SELECT * FROM parking_slot LIMIT ? OFFSET ?";
+        return jdbcTemplate.query(query, baseMapper, limit, (limit * (page - 1)));
     }
 
     @Override

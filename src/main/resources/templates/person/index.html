@@ -40,7 +40,7 @@
                                         <tbody>
                                         <tr class="align-middle text-center" th:each="person,iterStat : ${persons}">
                                             <td class="text-nowrap align-left" th:text="${iterStat.count}">Отсутствуют данные...</td>
-                                            <td th:text="${person.name}"></td>
+                                            <td th:text="${person.surname} + ' ' + ${person.name} + ' ' + ${person.middlename}"></td>
                                             <td class="text-center align-middle">
                                                 <div class="btn-group align-top">
                                                     <button class="btn btn-sm btn-outline-secondary badge" type="button" data-bs-toggle="modal" th:attr="data-bs-target='#'+${person.id}">Редактировать</button>
@@ -63,8 +63,14 @@
                                                                                 <div class="row">
                                                                                     <div class="col">
                                                                                         <div class="form-group text-left align-left">
-                                                                                            <label class="text-left align-left" for="fio_update">ФИО</label>
-                                                                                            <input class="form-control" id="fio_update" th:field="*{name}" type="text" name="name" placeholder="Сергеев Сергей Сергеевич" required>
+                                                                                            <label class="text-left align-left" for="fio_update">Фамилия</label>
+                                                                                            <input class="form-control" id="fio_update" th:field="*{surname}" type="text" name="name" placeholder="Сергеев" required>
+
+                                                                                            <label class="text-left align-left" for="name_update">Имя</label>
+                                                                                            <input class="form-control" id="name_update" th:field="*{name}" type="text" name="name" placeholder="Сергей" required>
+
+                                                                                            <label class="text-left align-left" for="middle_update">Отчество</label>
+                                                                                            <input class="form-control" id="middle_update" th:field="*{middlename}" type="text" name="name" placeholder="Сергеевич" required>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -145,8 +151,14 @@
                                             <div class="row">
                                                 <div class="col">
                                                     <div class="form-group">
-                                                        <label for="fio">ФИО</label>
-                                                        <input class="form-control" id="fio" th:field="*{name}" type="text" name="name" placeholder="Сергеев Сергей Сергеевич" required>
+                                                        <label for="fio">Фамилия</label>
+                                                        <input class="form-control" id="fio" th:field="*{surname}" type="text" name="name" placeholder="Сергеев" required>
+
+                                                        <label for="name">Имя</label>
+                                                        <input class="form-control" id="name" th:field="*{name}" type="text" name="name" placeholder="Сергей" required>
+
+                                                        <label for="middle">Отчество</label>
+                                                        <input class="form-control" id="middle" th:field="*{middlename}" type="text" name="name" placeholder="Сергеевич" required>
                                                     </div>
                                                 </div>
                                         </div>

@@ -24,13 +24,8 @@ public class CarService {
     }
 
     public void updateCar(Car car, Integer id) {
-        Optional<Car> cr = carRepository.findById(id);
-        if (cr.isPresent()) {
-            Car new_car = cr.get();
-            new_car.setNumber(car.getNumber());
-            new_car.setPerson_id(car.getPerson_id());
-            carRepository.save(new_car, true);
-        }
+        car.setId(Integer.toUnsignedLong(id));
+        carRepository.save(car, true);
     }
 
     public void deleteCar(Integer id) {

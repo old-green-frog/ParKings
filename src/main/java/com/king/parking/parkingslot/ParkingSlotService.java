@@ -30,15 +30,8 @@ public class ParkingSlotService {
     }
 
     public void updateParkingSlot(ParkingSlot slot, Integer id) {
-        Optional<ParkingSlot> sl = slotRepository.findById(id);
-        if (sl.isPresent()) {
-            ParkingSlot new_slot = sl.get();
-            new_slot.setNumber(slot.getNumber());
-            new_slot.setCost(slot.getCost());
-            new_slot.setCar_id(slot.getCar_id());
-            new_slot.setStatus_id(slot.getStatus_id());
-            slotRepository.save(new_slot, true);
-        }
+        slot.setId(Integer.toUnsignedLong(id));
+        slotRepository.save(slot, true);
     }
 
     public void deleteParkingSlot(Integer id) {

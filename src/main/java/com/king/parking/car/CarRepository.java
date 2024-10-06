@@ -30,13 +30,19 @@ public class CarRepository extends BaseRepository<Car> {
         }
 
         SqlParameterSource namedParameters = new MapSqlParameterSource().addValues(params);
-        jdbcTemplate.update(query, namedParameters);
+        namedJdbcTemplate.update(query, namedParameters);
     }
 
     @Override
     public Iterable<Car> findAll() {
         String query = "SELECT * FROM car";
         return jdbcTemplate.query(query, baseMapper);
+    }
+
+    @Override
+    public Iterable<Car> findAll(int limit, int page) {
+        String query = "SELECT * FROM car LIMIT ? OFFSET ?";
+        return jdbcTemplate.query(query, baseMapper, limit, (limit * (page - 1)));
     }
 
     @Override

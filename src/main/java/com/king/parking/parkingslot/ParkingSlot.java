@@ -53,4 +53,8 @@ public class ParkingSlot {
     public void setStatus_id(Long status_id) {
         this.status_id = status_id;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

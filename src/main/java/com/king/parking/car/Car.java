@@ -39,4 +39,8 @@ public class Car {
     public void setPerson_id(Long person_id) {
         this.person_id = person_id;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

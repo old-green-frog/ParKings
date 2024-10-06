@@ -17,13 +17,8 @@ public class SlotStatusService {
     }
 
     public void updateSlotStatus(SlotStatus slotStatus, Integer id) {
-        Optional<SlotStatus> ss = statusRepository.findById(id);
-        if (ss.isPresent()) {
-            SlotStatus status = ss.get();
-            status.setStatus_string(slotStatus.getStatus_string());
-            status.setStatus_string_rus(slotStatus.getStatus_string_rus());
-            statusRepository.save(status, true);
-        }
+        slotStatus.setId(Integer.toUnsignedLong(id));
+        statusRepository.save(slotStatus, true);
     }
 
     public void deleteSlotStatus(Integer id) {

@@ -45,4 +45,8 @@ public class SlotStatus {
     public void setStatus_string_rus(String status_string_rus) {
         this.status_string_rus = status_string_rus;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

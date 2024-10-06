@@ -17,12 +17,8 @@ public class PersonService {
     }
 
     public void updatePerson(Person person, Integer id) {
-        Optional<Person> p = personRepository.findById(id);
-        if (p.isPresent()) {
-            Person pers = p.get();
-            pers.setName(person.getName());
-            personRepository.save(pers, true);
-        }
+        person.setId(Integer.toUnsignedLong(id));
+        personRepository.save(person, true);
     }
 
     public void deletePerson(Integer id) {
