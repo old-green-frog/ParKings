@@ -1,18 +1,13 @@
 package com.king.parking.slotstatus;
 
-import jakarta.persistence.*;
 
-@Entity
 public class SlotStatus {
 
-    @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
-
     private String status_string;
     private String status_string_rus;
 
-    protected SlotStatus() {}
+    public SlotStatus() {}
 
     public SlotStatus(String status_string) {
         Status status = Status.valueOfEn(status_string);
@@ -49,5 +44,9 @@ public class SlotStatus {
 
     public void setStatus_string_rus(String status_string_rus) {
         this.status_string_rus = status_string_rus;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

@@ -42,7 +42,7 @@
                                         <tr class="align-middle text-center" th:each="car,iterStat : ${cars}">
                                             <td class="text-nowrap align-left" th:text="${iterStat.count}">Отсутствуют данные...</td>
                                             <td th:text="${car.number}"></td>
-                                            <td th:text="${car.person.name}"></td>
+                                            <td th:text="${person_relate[car.id].surname} + ' ' + ${person_relate[car.id].name} + ' ' + ${person_relate[car.id].middlename}"></td>
                                             <td class="text-center align-middle">
                                                 <div class="btn-group align-top">
                                                     <button class="btn btn-sm btn-outline-secondary badge" type="button" data-bs-toggle="modal" th:attr="data-bs-target='#'+${car.id}">Редактировать</button>
@@ -65,14 +65,14 @@
                                                                                 <div class="row">
                                                                                     <div class="col">
                                                                                         <div class="form-group text-left align-left">
-                                                                                            <label class="text-left align-left" for="person_update">ФИО владельца</label>
-                                                                                            <select id="person_update" th:field="*{person}" required>
-                                                                                                <option th:each="person : ${persons}" th:value="${person.id}" th:text="${person.name}">
-                                                                                                </option>
-                                                                                            </select>
-
                                                                                             <label class="text-left align-left" for="number_update">Регистрационный знак</label>
                                                                                             <input class="form-control" id="number_update" th:field="*{number}" type="text" name="number" placeholder="ч345оо161" required>
+
+                                                                                            <label class="text-left align-left" for="person_update">ФИО владельца</label>
+                                                                                            <select id="person_update" th:field="*{person_id}" required>
+                                                                                                <option th:each="person : ${persons}" th:value="${person.id}" th:text="${person.surname} + ' ' + ${person.name} + ' ' + ${person.middlename}">
+                                                                                                </option>
+                                                                                            </select>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -154,8 +154,8 @@
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label class="text-left align-left" for="person_create">ФИО владельца</label>
-                                                    <select id="person_create" th:field="*{person}" required>
-                                                        <option th:each="person : ${persons}" th:value="${person.id}" th:text="${person.name}">
+                                                    <select id="person_create" th:field="*{person_id}" required>
+                                                        <option th:each="person : ${persons}" th:value="${person.id}" th:text="${person.surname} + ' ' + ${person.name} + ' ' + ${person.middlename}">
                                                         </option>
                                                     </select>
 

@@ -1,19 +1,19 @@
 package com.king.parking.person;
 
-import jakarta.persistence.*;
 
-
-@Entity
 public class Person {
 
-    @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
     private String name;
+    private String surname;
+    private String middlename;
 
-    protected Person() {}
-    public Person(String name) {
+
+    public Person() {}
+    public Person(String name, String surname, String middlename) {
         this.name = name;
+        this.surname = surname;
+        this.middlename = middlename;
     }
 
     @Override
@@ -32,5 +32,25 @@ public class Person {
     }
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getMiddlename() {
+        return middlename;
+    }
+
+    public void setMiddlename(String middlename) {
+        this.middlename = middlename;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

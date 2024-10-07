@@ -8,9 +8,13 @@ function getTdValues(tr) {
 }
 
 function onClick(index) {
-    let td_vals = getTdValues(trs[index]);
+    var td_vals = getTdValues(trs[index]);
     let form = forms[index];
     let inputs = form.elements;
+
+    if (td_vals.length == 1) {
+        td_vals = td_vals[0].split(' ');
+    }
 
     for (let i = 0; i < inputs.length; i++) {
         inputs[i].value = inputs[i].value ? inputs[i].value : td_vals[i];
