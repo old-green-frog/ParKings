@@ -46,4 +46,5 @@ public abstract class BaseRepository<T> {
     public abstract Iterable<T> findAll(int limit, int page);
     public abstract Optional<T> findById(Integer id);
     public abstract void deleteById(Integer id);
+    public abstract Integer getObjectsCount();
 }

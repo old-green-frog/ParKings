@@ -28,6 +28,10 @@ public class PersonService {
         }
     }
 
+    public Integer getPersonPagesCount(int limit) {
+        return (int) Math.ceil((double) personRepository.getObjectsCount() / limit);
+    }
+
     public void populateModelData(Model model) {
         model.addAttribute("persons", personRepository.findAll());
         model.addAttribute("person", new Person());

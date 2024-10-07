@@ -36,4 +36,10 @@ public class CarController {
         service.populateModelData(model);
         return "car/index";
     }
+
+    @GetMapping(path="/pages")
+    @ResponseBody
+    public Integer getPageCount(@RequestParam(defaultValue = "25") int limit) {
+        return service.getCarsPagesCount(limit);
+    }
 }

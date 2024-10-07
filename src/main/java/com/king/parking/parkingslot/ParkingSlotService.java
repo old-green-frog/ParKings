@@ -41,6 +41,10 @@ public class ParkingSlotService {
         }
     }
 
+    public Integer getSlotPagesCount(int limit) {
+        return (int) Math.ceil((double) slotRepository.getObjectsCount() / limit);
+    }
+
     public void populateModelData(Model model) {
         Iterable<Car> cars = carRepository.findAll();
         Iterable<SlotStatus> statuses = statusRepository.findAll();

@@ -36,4 +36,10 @@ public class SlotStatusController {
         service.populateModelData(model);
         return "status/index";
     }
+
+    @GetMapping(path="/pages")
+    @ResponseBody
+    public Integer getPageCount(@RequestParam(defaultValue = "25") int limit) {
+        return service.getStatusPagesCount(limit);
+    }
 }

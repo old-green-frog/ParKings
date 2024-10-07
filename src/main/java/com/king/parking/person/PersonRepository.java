@@ -59,4 +59,10 @@ public class PersonRepository extends BaseRepository<Person> {
         String query = "DELETE FROM person WHERE id = ?";
         jdbcTemplate.update(query, id);
     }
+
+    @Override
+    public Integer getObjectsCount() {
+        String query = "SELECT COUNT(*) FROM person";
+        return jdbcTemplate.queryForObject(query, Integer.class);
+    }
 }

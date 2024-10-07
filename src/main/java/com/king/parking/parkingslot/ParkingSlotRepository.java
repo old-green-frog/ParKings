@@ -61,4 +61,10 @@ public class ParkingSlotRepository extends BaseRepository<ParkingSlot> {
         String query = "DELETE FROM parking_slot WHERE id = ?";
         jdbcTemplate.update(query, id);
     }
+
+    @Override
+    public Integer getObjectsCount() {
+        String query = "SELECT COUNT(*) FROM parking_slot";
+        return jdbcTemplate.queryForObject(query, Integer.class);
+    }
 }

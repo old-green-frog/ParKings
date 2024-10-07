@@ -37,4 +37,10 @@ public class PersonController {
         service.populateModelData(model);
         return "person/index";
     }
+
+    @GetMapping(path="/pages")
+    @ResponseBody
+    public Integer getPageCount(@RequestParam(defaultValue = "25") int limit) {
+        return service.getPersonPagesCount(limit);
+    }
 }

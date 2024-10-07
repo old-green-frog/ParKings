@@ -35,6 +35,10 @@ public class CarService {
         }
     }
 
+    public Integer getCarsPagesCount(int limit) {
+        return (int) Math.ceil((double) carRepository.getObjectsCount() / limit);
+    }
+
     public void populateModelData(Model model) {
         Map<Long, Person> personCarRelate = new HashMap<>();
         Iterable<Car> cars = carRepository.findAll();

@@ -28,6 +28,10 @@ public class SlotStatusService {
         }
     }
 
+    public Integer getStatusPagesCount(int limit) {
+        return (int) Math.ceil((double) statusRepository.getObjectsCount() / limit);
+    }
+
     public void populateModelData(Model model) {
         model.addAttribute("statuses", statusRepository.findAll());
         model.addAttribute("status", new SlotStatus());

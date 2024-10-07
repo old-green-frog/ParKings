@@ -40,4 +40,10 @@ public class ParkingSlotController {
         service.populateModelData(model);
         return "slot/index";
     }
+
+    @GetMapping(path="/pages")
+    @ResponseBody
+    public Integer getPageCount(@RequestParam(defaultValue = "25") int limit) {
+        return service.getSlotPagesCount(limit);
+    }
 }

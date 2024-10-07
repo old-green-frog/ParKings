@@ -56,4 +56,10 @@ public class CarRepository extends BaseRepository<Car> {
         String query = "DELETE FROM car WHERE id = ?";
         jdbcTemplate.update(query, id);
     }
+
+    @Override
+    public Integer getObjectsCount() {
+        String query = "SELECT COUNT(*) FROM car";
+        return jdbcTemplate.queryForObject(query, Integer.class);
+    }
 }
