@@ -2,44 +2,56 @@ package com.king.parking.car;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
-@RequestMapping(path="/car")
+import java.util.Map;
+
+@RestController
+@RequestMapping(path="/cars")
 public class CarController {
 
     @Autowired
     private CarService service;
 
-    @PostMapping(path="/create")
-    public String createCar(@ModelAttribute Car car, Model model) {
+    @PostMapping(
+            path = "/create/",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<Car> createCar(@RequestBody Car car) {
         service.saveCar(car);
-        return "redirect:/car/all";
+        return new ResponseEntity<>(car, HttpStatus.CREATED);
     }
 
-    @PostMapping(path="/{id}/update")
-    public String updateCar(@PathVariable Integer id, @ModelAttribute Car car, Model model) {
+    @PutMapping(
+            path = "/{id}/",
+            consumes = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<Car> updateCar(@PathVariable Integer id, @RequestBody Car car) {
         service.updateCar(car, id);
-        return "redirect:/car/all";
+        return new ResponseEntity<>(car, HttpStatus.OK);
     }
 
-    @PostMapping(path="/{id}/delete")
-    public String deleteCar(@PathVariable Integer id, Model model) {
+    @DeleteMapping(path = "/{id}/")
+    public ResponseEntity deleteCar(@PathVariable Integer id) {
         service.deleteCar(id);
-        return "redirect:/car/all";
+        return ResponseEntity.ok().build();
     }
 
-    @GetMapping(path="/all")
-    public String getAllPersons(Model model) {
-        service.populateModelData(model);
-        return "car/index";
+    @GetMapping(path = "/")
+    public Iterable<Car> getAllCars(
+            @RequestParam(required = false, defaultValue = "25") int limit,
+            @RequestParam(required = false, defaultValue = "1") int page
+    ) {
+        return service.findAll(limit, page);
     }
 
-    @GetMapping(path="/pages")
-    @ResponseBody
-    public Integer getPageCount(@RequestParam(defaultValue = "25") int limit) {
-        return service.getCarsPagesCount(limit);
+    @GetMapping(path="/pages/")
+    public Map<String, Object> getPageCount(@RequestParam(defaultValue = "25") int limit) {
+        return Map.of("pages_count", service.getCarsPagesCount(limit));
+
     }
 }

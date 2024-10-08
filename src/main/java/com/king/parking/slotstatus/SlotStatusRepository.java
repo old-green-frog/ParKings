@@ -1,7 +1,6 @@
 package com.king.parking.slotstatus;
 
 import com.king.parking.BaseRepository;
-import com.king.parking.person.Person;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
@@ -25,18 +24,17 @@ public class SlotStatusRepository extends BaseRepository<SlotStatus> {
             params.put("id", obj.getId());
             query = "UPDATE slot_status SET status_string = :status, status_string_rus = :status_rus WHERE id = :id";
         } else {
+            jdbcTemplate.update("UPDATE slot_status_seq SET next_val = next_val + 1");
             params.put("id", jdbcTemplate.queryForObject("SELECT next_val FROM slot_status_seq", Long.class));
             query = "INSERT INTO slot_status(id, status_string, status_string_rus) VALUES (:id, :status, :status_rus)";
         }
 
         SqlParameterSource namedParameters = new MapSqlParameterSource().addValues(params);
         namedJdbcTemplate.update(query, namedParameters);
-    }
 
-    @Override
-    public Iterable<SlotStatus> findAll() {
-        String query = "SELECT * FROM slot_status";
-        return jdbcTemplate.query(query, baseMapper);
+        if (!isUpdate) {
+            obj.setId((Long) params.get("id"));
+        }
     }
 
     @Override

@@ -1,9 +1,7 @@
 package com.king.parking.slotstatus;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 import java.util.Optional;
 
@@ -32,8 +30,7 @@ public class SlotStatusService {
         return (int) Math.ceil((double) statusRepository.getObjectsCount() / limit);
     }
 
-    public void populateModelData(Model model) {
-        model.addAttribute("statuses", statusRepository.findAll());
-        model.addAttribute("status", new SlotStatus());
+    public Iterable<SlotStatus> findAll(int limit, int page) {
+        return statusRepository.findAll(limit, page);
     }
 }

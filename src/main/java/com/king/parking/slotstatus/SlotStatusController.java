@@ -1,45 +1,56 @@
 package com.king.parking.slotstatus;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 
-@Controller
-@RequestMapping(path="/status") // This means URL's start with /person (after Application path)
+
+@RestController
+@RequestMapping(path="/statuses") // This means URL's start with /person (after Application path)
 public class SlotStatusController {
 
     @Autowired
     private SlotStatusService service;
 
-    @PostMapping(path="/create")
-    public String createStatus(@ModelAttribute SlotStatus slotStatus, Model model) {
-        service.saveSlotStatus(slotStatus);
-        return "redirect:/status/all";
+    @PostMapping(
+            path = "/create/",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<SlotStatus> createStatus(@RequestBody SlotStatus status) {
+        service.saveSlotStatus(status);
+        return new ResponseEntity<>(status, HttpStatus.CREATED);
     }
 
-    @PostMapping(path="/{id}/update")
-    public String updateStatus(@PathVariable Integer id, @ModelAttribute SlotStatus slotStatus, Model model) {
-        service.updateSlotStatus(slotStatus, id);
-        return "redirect:/status/all";
+    @PutMapping(
+            path = "/{id}/",
+            consumes = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<SlotStatus> updateStatus(@PathVariable Integer id, @RequestBody SlotStatus status) {
+        service.updateSlotStatus(status, id);
+        return new ResponseEntity<>(status, HttpStatus.OK);
     }
 
-    @PostMapping(path="/{id}/delete")
-    public String deleteStatus(@PathVariable Integer id, Model model) {
+    @DeleteMapping(path = "/{id}/")
+    public ResponseEntity deleteStatus(@PathVariable Integer id) {
         service.deleteSlotStatus(id);
-        return "redirect:/status/all";
+        return ResponseEntity.ok().build();
     }
 
-    @GetMapping(path="/all")
-    public String getAllStatuses(Model model) {
-        service.populateModelData(model);
-        return "status/index";
+    @GetMapping(path = "/")
+    public Iterable<SlotStatus> getAllStatuses(
+            @RequestParam(defaultValue = "25") int limit,
+            @RequestParam(defaultValue = "1") int page
+    ) {
+        return service.findAll(limit, page);
     }
 
-    @GetMapping(path="/pages")
-    @ResponseBody
-    public Integer getPageCount(@RequestParam(defaultValue = "25") int limit) {
-        return service.getStatusPagesCount(limit);
+    @GetMapping(path="/pages/")
+    public Map<String, Object> getPageCount(@RequestParam(defaultValue = "25") int limit) {
+        return Map.of("pages_count", service.getStatusPagesCount(limit));
     }
 }

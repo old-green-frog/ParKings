@@ -25,18 +25,17 @@ public class CarRepository extends BaseRepository<Car> {
             params.put("id", obj.getId());
             query = "UPDATE car SET number = :number, person_id = :person_id WHERE id = :id";
         } else {
+            jdbcTemplate.update("UPDATE car_seq SET next_val = next_val + 1");
             params.put("id", jdbcTemplate.queryForObject("SELECT next_val FROM car_seq", Long.class));
             query = "INSERT INTO car(id, number, person_id) VALUES (:id, :number, :person_id)";
         }
 
         SqlParameterSource namedParameters = new MapSqlParameterSource().addValues(params);
         namedJdbcTemplate.update(query, namedParameters);
-    }
 
-    @Override
-    public Iterable<Car> findAll() {
-        String query = "SELECT * FROM car";
-        return jdbcTemplate.query(query, baseMapper);
+        if (!isUpdate) {
+            obj.setId((Long) params.get("id"));
+        }
     }
 
     @Override

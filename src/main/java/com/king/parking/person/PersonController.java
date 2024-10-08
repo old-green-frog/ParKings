@@ -1,46 +1,55 @@
 package com.king.parking.person;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
+import java.util.Map;
 
-@Controller
-@RequestMapping(path="/person") // This means URL's start with /person (after Application path)
+@RestController
+@RequestMapping(path="/persons") // This means URL's start with /person (after Application path)
 public class PersonController {
 
     @Autowired
     private PersonService service;
 
-    @PostMapping(path="/create")
-    public String createPerson(@ModelAttribute Person person, Model model) {
+    @PostMapping(
+            path = "/create/",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<Person> createPerson(@RequestBody Person person) {
         service.savePerson(person);
-        return "redirect:/person/all";
+        return new ResponseEntity<>(person, HttpStatus.CREATED);
     }
 
-    @PostMapping(path="/{id}/update")
-    public String updatePerson(@PathVariable Integer id, @ModelAttribute Person person, Model model) {
+    @PutMapping(
+            path = "/{id}/",
+            consumes = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<Person> updatePerson(@PathVariable Integer id, @RequestBody Person person) {
         service.updatePerson(person, id);
-        return "redirect:/person/all";
+        return new ResponseEntity<>(person, HttpStatus.OK);
     }
 
-    @PostMapping(path="/{id}/delete")
-    public String deletePerson(@PathVariable Integer id, Model model) {
+    @DeleteMapping(path = "/{id}/")
+    public ResponseEntity deletePerson(@PathVariable Integer id) {
         service.deletePerson(id);
-        return "redirect:/person/all";
+        return ResponseEntity.ok().build();
     }
 
-    @GetMapping(path="/all")
-    public String getAllPersons(Model model) {
-        service.populateModelData(model);
-        return "person/index";
+    @GetMapping(path = "/")
+    public Iterable<Person> getAllPersons(
+            @RequestParam(defaultValue = "25") int limit,
+            @RequestParam(defaultValue = "1") int page
+    ) {
+        return service.findAll(limit, page);
     }
 
-    @GetMapping(path="/pages")
-    @ResponseBody
-    public Integer getPageCount(@RequestParam(defaultValue = "25") int limit) {
-        return service.getPersonPagesCount(limit);
+    @GetMapping(path="/pages/")
+    public Map<String, Object> getPageCount(@RequestParam(defaultValue = "25") int limit) {
+        return Map.of("pages_count", service.getPersonPagesCount(limit));
     }
 }
