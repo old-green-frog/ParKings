@@ -14,7 +14,7 @@ public class SlotListener {
     @EventListener
     public void handleContextRefresh(ContextRefreshedEvent event) {
         int status_counter = 0;
-        for (Object status: statusRepository.findAll()) {
+        for (Object status: statusRepository.findAll(25, 1)) {
             status_counter++;
         }
         if (status_counter <= 0) {
