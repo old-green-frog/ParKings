@@ -2,7 +2,6 @@ package com.king.parking.person;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 import java.util.Optional;
 
@@ -32,8 +31,7 @@ public class PersonService {
         return (int) Math.ceil((double) personRepository.getObjectsCount() / limit);
     }
 
-    public void populateModelData(Model model) {
-        model.addAttribute("persons", personRepository.findAll());
-        model.addAttribute("person", new Person());
+    public Iterable<Person> findAll(int limit, int page) {
+        return personRepository.findAll(limit, page);
     }
 }

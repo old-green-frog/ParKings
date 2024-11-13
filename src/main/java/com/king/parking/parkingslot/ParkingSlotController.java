@@ -1,49 +1,58 @@
 package com.king.parking.parkingslot;
 
-import com.king.parking.car.CarRepository;
-import com.king.parking.slotstatus.SlotStatusRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
+import java.util.HashMap;
+import java.util.Map;
 
-@Controller
-@RequestMapping(path="/slot")
+
+@RestController
+@RequestMapping(path="/slots")
 public class ParkingSlotController {
 
     @Autowired
     private ParkingSlotService service;
 
-
-    @PostMapping(path="/create")
-    public String createSlot(@ModelAttribute ParkingSlot slot, Model model) {
+    @PostMapping(
+            path = "/create/",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<ParkingSlot> createSlot(@RequestBody ParkingSlot slot) {
         service.saveParkingSlot(slot);
-        return "redirect:/slot/all";
+        return new ResponseEntity<>(slot, HttpStatus.CREATED);
     }
 
-    @PostMapping(path="/{id}/update")
-    public String updateSlot(@PathVariable Integer id, @ModelAttribute ParkingSlot slot, Model model) {
+    @PutMapping(
+            path = "/{id}/",
+            consumes = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<ParkingSlot> updateSlot(@PathVariable Integer id, @RequestBody ParkingSlot slot) {
         service.updateParkingSlot(slot, id);
-        return "redirect:/slot/all";
+        return new ResponseEntity<>(slot, HttpStatus.OK);
     }
 
-    @PostMapping(path="/{id}/delete")
-    public String deleteSlot(@PathVariable Integer id, Model model) {
+    @DeleteMapping(path = "/{id}/")
+    public ResponseEntity deleteSlot(@PathVariable Integer id) {
         service.deleteParkingSlot(id);
-        return "redirect:/slot/all";
+        return ResponseEntity.ok().build();
     }
 
-    @GetMapping(path="/all")
-    public String getAllSlots(Model model) {
-        service.populateModelData(model);
-        return "slot/index";
+    @GetMapping(path = "/")
+    public Iterable<ParkingSlot> getAllSlots(
+            @RequestParam(defaultValue = "25") int limit,
+            @RequestParam(defaultValue = "1") int page
+    ) {
+        return service.findAll(limit, page);
     }
 
-    @GetMapping(path="/pages")
-    @ResponseBody
-    public Integer getPageCount(@RequestParam(defaultValue = "25") int limit) {
-        return service.getSlotPagesCount(limit);
+    @GetMapping(path="/pages/")
+    public Map<String, Object> getPageCount(@RequestParam(defaultValue = "25") int limit) {
+        return Map.of("pages_count", service.getSlotPagesCount(limit));
     }
 }

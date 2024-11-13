@@ -28,18 +28,17 @@ public class PersonRepository extends BaseRepository<Person> {
             params.put("id", obj.getId());
             query = "UPDATE person SET name = :name, surname = :surname, middlename = :middlename WHERE id = :id";
         } else {
+            jdbcTemplate.update("UPDATE person_seq SET next_val = next_val + 1");
             params.put("id", jdbcTemplate.queryForObject("SELECT next_val FROM person_seq", Long.class));
             query = "INSERT INTO person(id, name, surname, middlename) VALUES (:id, :name, :surname, :middlename)";
         }
 
         SqlParameterSource namedParameters = new MapSqlParameterSource().addValues(params);
         namedJdbcTemplate.update(query, namedParameters);
-    }
 
-    @Override
-    public Iterable<Person> findAll() {
-        String query = "SELECT * FROM person";
-        return jdbcTemplate.query(query, baseMapper);
+        if (!isUpdate) {
+            obj.setId((Long) params.get("id"));
+        }
     }
 
     @Override

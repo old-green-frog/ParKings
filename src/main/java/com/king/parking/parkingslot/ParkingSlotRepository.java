@@ -29,6 +29,7 @@ public class ParkingSlotRepository extends BaseRepository<ParkingSlot> {
             query = "UPDATE parking_slot SET " +
                     "number = :number, cost = :cost, status_id = :status_id, car_id = :car_id WHERE id = :id";
         } else {
+            jdbcTemplate.update("UPDATE parking_slot_seq SET next_val = next_val + 1");
             params.put("id", jdbcTemplate.queryForObject("SELECT next_val FROM parking_slot_seq", Long.class));
             query = "INSERT INTO parking_slot(id, number, cost, status_id, car_id) " +
                     "VALUES (:id, :number, :cost, :status_id, :car_id)";
@@ -36,12 +37,10 @@ public class ParkingSlotRepository extends BaseRepository<ParkingSlot> {
 
         SqlParameterSource namedParameters = new MapSqlParameterSource().addValues(params);
         namedJdbcTemplate.update(query, namedParameters);
-    }
 
-    @Override
-    public Iterable<ParkingSlot> findAll() {
-        String query = "SELECT * FROM parking_slot";
-        return jdbcTemplate.query(query, baseMapper);
+        if (!isUpdate) {
+            obj.setId((Long) params.get("id"));
+        }
     }
 
     @Override
